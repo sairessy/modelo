@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modelo - Dashboard</title>
+    <link rel="stylesheet" href="../../css/dashboard.css" />
+  </head>
+  <body>
+    <header>
+      <a class="title" href="/"><h1>Modelo</h1></a>
+      <div class="right">
+        <a href="#" id="a-logout">Sair</a>
+      </div>
+    </header>
+
+    <main>
+      <aside>
+        <div class="aside-container">
+          <div class="photo-container">
+            <div class="photo"></div>
+          </div>
+        </div>
+        <form id="form-user-info">
+          <label>Email</label>
+          <input type="text" id="email" name="email" disabled />
+          <label>Nome</label>
+          <input type="text" id="name" name="name" />
+          <label>Contacto</label>
+          <input type="text" id="contact" name="contact" />
+          <select id="select-city" name="select-city">
+            <option value="">Seleccione sua província</option>
+            <option value="">Maputo</option>
+            <option value="">Sofala</option>
+            <option value="">Manica</option>
+          </select>
+          <select id="select-age-group" name="select-age-group">
+            <option value="">Seleccione a faixa etária</option>
+            <option value="0">Adulto</option>
+            <option value="1">Adolescente</option>
+            <option value="2">Criança</option>
+            <option value="3">Bebé</option>
+          </select>
+          <select id="select-city" name="select-city">
+            <option value="">Seleccione o género</option>
+            <option value="">Masculino</option>
+            <option value="">Feminino</option>
+          </select>
+          <!-- <label for="birthday">Data de nascimento</label>
+          <input type="date" id="birthday" name="birthday" /> -->
+          <input type="submit" value="Actualizar" />
+        </form>
+      </aside>
+      <section>
+        <div class="section-container">
+          <div class="card">
+            <div class="card-header">
+              <p>Minhas fotos</p>
+              <a href="/pages/create/" id="a-add-photo">Adicionar</a>
+            </div>
+            <div class="card-body">
+              <div id="models"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module">
+      import models from "../../models.js";
+      let models_aux = "";
+
+      for (const model of models) {
+        const { city, gender, id, pic, average_price_pic } = model;
+        models_aux += `
+          <div class='model'>
+            <div class='cover' style='background: url(${pic}) no-repeat center center/cover;'></div>
+            <div class='description'>
+              <button id='btn-profile-pic'>Foto de perfil</button><button id='btn-delete'>Apagar</button>
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById("models").innerHTML = models_aux;
+    </script>
+  </body>
+</html>

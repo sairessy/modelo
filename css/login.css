@@ -1,0 +1,46 @@
+body {
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+}
+
+* {
+  outline: none;
+}
+
+form a {
+  color: #000;
+  text-decoration: none;
+  text-decoration: underline;
+}
+
+.title {
+  text-align: center;
+}
+
+.title a {
+  text-decoration: none;
+  color: #000;
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  height: 420px;
+  border: 1px solid #eee;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+input {
+  padding: 15px;
+  margin-bottom: 20px;
+}

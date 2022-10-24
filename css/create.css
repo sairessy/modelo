@@ -1,0 +1,80 @@
+body {
+  background-color: #f9f9f9;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+* {
+  outline: none;
+}
+
+/* header */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+}
+
+.title {
+  text-transform: uppercase;
+}
+
+header  .right {
+  display: flex;
+  align-items: center;
+}
+
+
+header #a-logout {
+  border-radius: 25px;
+  padding: 7px 5px;
+  width: 200px;
+  text-align: center;
+  border: 1px solid #000;
+  margin-right: 10px;
+  transition: all .4s ease-in-out;
+}
+
+header #a-logout:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* main */
+main {
+  display: flex;
+}
+
+.form-container {
+  background-color: #fff;
+  width: 380px;
+  height: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.form-container .cover {
+  flex: 4;
+  background: url(../img/camera-solid.svg) no-repeat center center/cover;
+}
+
+.form-container form {
+  padding: 10px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-around;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="libraries/line-awesome.min.css" />
+    <link rel="stylesheet" href="main.css" />
+    <title>MODELO</title>
+  </head>
+  <body>
+    <header>
+      <a class="title" href="/"><h1>Modelo</h1></a>
+      <div class="right">
+        <!-- <a href="/pages/login" id="a-login">Entrar</a> -->
+        <nav>
+          <a href="#">Adultos</a>
+          <a href="#">Adolescentes</a>
+          <a href="#">Crianças</a>
+          <a href="#">Bebés</a>
+        </nav>
+        <select id="">
+          <option value="">Seleccionar género</option>
+          <option value="">Masculino</option>
+          <option value="">Feminino</option>
+        </select>
+      </div>
+    </header>
+
+    <main>
+      <div id="models"></div>
+    </main>
+
+    <footer>
+      <div class="top">
+        <div>
+          A nossa empresa lhe permite encontrar o modelo mais adequado para
+          qualquer tipo de publicidade publicidade que pretenda realizar.
+        </div>
+        <div>
+          <h3>Contacto</h3>
+          <p>Av. Emília Dausse - Nº 1898</p>
+          <p>(+258) 823909988 / 843909988</p>
+          <p>comercial@modelos.co.mz</p>
+        </div>
+        <div>
+          <h3>Social</h3>
+          <a href=""><i class="la la-facebook"></i></a>
+          <a href=""><i class="la la-instagram"></i></a>
+          <a href=""><i class="la la-twitter"></i></a>
+        </div>
+      </div>
+      <div class="bottom">modelo.co.mz &copy; 2022</div>
+    </footer>
+
+    <script type="module">
+      import models from "./models.js";
+      let models_aux = "";
+
+      for (const model of models) {
+        const { city, gender, id, pic, average_price_pic } = model;
+        models_aux += `
+          <div class='model'>
+            <div class='cover' style='background: url(${pic}) no-repeat center center/cover;'></div>
+            <div class='description'>
+              <!--<div class='city-photos'>
+                <p>${city}</p>
+                <a href="/pages/profile/?id=${id}"><span>33</span><i class='la la-lg la-camera'></i></a>
+              </div>-->
+              <p style='text-align: right;'>${String(id).padStart(
+                7,
+                "0"
+              )}<strong> #</strong></p>
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById("models").innerHTML = models_aux;
+    </script>
+  </body>
+</html>
