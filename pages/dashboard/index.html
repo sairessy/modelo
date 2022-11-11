@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modelo - Dashboard</title>
+    <link rel="stylesheet" href="../../libraries/line-awesome.min.css" />
     <link rel="stylesheet" href="../../css/dashboard.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
   </head>
   <body>
     <header>
@@ -24,40 +26,41 @@
         </div>
         <form id="form-user-info">
           <label>Email</label>
-          <input type="text" id="email" name="email" disabled />
+          <input type="text" id="email" name="email" />
           <label>Nome</label>
           <input type="text" id="name" name="name" />
           <label>Contacto</label>
           <input type="text" id="contact" name="contact" />
-          <select id="select-city" name="select-city">
-            <option value="">Seleccione sua província</option>
-            <option value="">Maputo</option>
-            <option value="">Sofala</option>
-            <option value="">Manica</option>
-          </select>
+
+          <label for="">Seleccione a faixa etária</label>
           <select id="select-age-group" name="select-age-group">
-            <option value="">Seleccione a faixa etária</option>
-            <option value="0">Adulto</option>
-            <option value="1">Adolescente</option>
-            <option value="2">Criança</option>
-            <option value="3">Bebé</option>
+            <option value="0">Bebé</option>
+            <option value="1">Criança</option>
+            <option value="2">Adolescente</option>
+            <option value="3">Adulto</option>
           </select>
-          <select id="select-city" name="select-city">
-            <option value="">Seleccione o género</option>
-            <option value="">Masculino</option>
-            <option value="">Feminino</option>
-          </select>
-          <!-- <label for="birthday">Data de nascimento</label>
-          <input type="date" id="birthday" name="birthday" /> -->
-          <input type="submit" value="Actualizar" />
+          <div>
+            <label for="f">Feminino</label>
+            <input type="radio" name="gender" id="f" value="f" />
+            <label for="m">Masculino</label>
+            <input type="radio" name="gender" id="m" value="m" />
+          </div>
+          <label for="address">Morada</label>
+          <input type="text" name="address" id="address" />
+          <input type="submit" value="Actualizar" class="btn-primary" />
         </form>
       </aside>
       <section>
         <div class="section-container">
           <div class="card">
             <div class="card-header">
-              <p>Minhas fotos</p>
-              <a href="/pages/create/" id="a-add-photo">Adicionar</a>
+              <h2>Fotos</h2>
+              <a href="" id="a-add-photo"
+                ><button class="btn-primary">
+                  <i class="la la-plus-circle" style="margin-right: 10px"></i
+                  ><span>Nova</span>
+                </button></a
+              >
             </div>
             <div class="card-body">
               <div id="models"></div>
@@ -68,22 +71,93 @@
     </main>
 
     <script type="module">
-      import models from "../../models.js";
-      let models_aux = "";
+      import { api_url } from "../../js/config.js";
 
-      for (const model of models) {
-        const { city, gender, id, pic, average_price_pic } = model;
-        models_aux += `
-          <div class='model'>
-            <div class='cover' style='background: url(${pic}) no-repeat center center/cover;'></div>
-            <div class='description'>
-              <button id='btn-profile-pic'>Foto de perfil</button><button id='btn-delete'>Apagar</button>
-            </div>
-          </div>
-        `;
-      }
+      import Util from "../../js/Util.js";
 
-      document.getElementById("models").innerHTML = models_aux;
+      new Util().keep_api_awake(api_url);
+
+      const url = new URL(window.location.href);
+      const id = url.searchParams.get("id");
+
+      document
+        .getElementById("form-user-info")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const url = new URL(window.location.href);
+          const modelo_id = url.searchParams.get("id");
+
+          const form = new FormData(e.target);
+
+          const email = form.get("email");
+          const name = form.get("name");
+          const contact = form.get("contact");
+          const gender = form.get("gender");
+          const age = form.get("select-age-group");
+          const address = form.get("address");
+
+          const data = {
+            email,
+            full_name: name,
+            contact,
+            gender,
+            age,
+            address,
+            modelo_id,
+          };
+
+          const res = await fetch(api_url + "/modelo/update", {
+            method: "PUT",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          const json = await res.json();
+
+          alert("Dados actualizados");
+        });
+
+      const get_model = async () => {
+        const res = await fetch(api_url + "/modelo/" + id);
+        const json = await res.json();
+        const { full_name: name, email, contact, address, age } = json.data;
+
+        document.getElementById("name").value = name || "";
+        document.getElementById("email").value = email || "";
+        document.getElementById("contact").value = contact || "";
+        document.getElementById("address").value = address || "";
+        document.getElementById("select-age-group").value = age;
+      };
+
+      const get_photos = async () => {
+        const res = await fetch(api_url + "/modelo/photos/" + id);
+        const json = await res.json();
+
+        if (json.length > 0) {
+          let photos = "";
+          for (const p of json) {
+            photos += `
+              <div class='model'>
+                <div class='cover' style='background: url(${p.data}) no-repeat center center/cover;'></div>
+                <a href="${api_url}/modelo/photo/delete/${p._id}/${id}" class="btn-remove"><i class="la la-times"></i></a>
+                <div class='description'>
+                  <button id='btn-profile-pic'>Foto de perfil</button><button id='btn-delete'>Apagar</button>
+                </div>
+              </div>
+            `;
+          }
+          document.getElementById("models").innerHTML = photos;
+        }
+      };
+
+      get_model();
+      get_photos();
+
+      document.getElementById("a-add-photo").href =
+        "/pages/upload-photo/?id=" + id;
     </script>
   </body>
 </html>

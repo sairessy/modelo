@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel</title>
+    <link rel="stylesheet" href="../../libraries/line-awesome.min.css" />
+    <link rel="stylesheet" href="../../css/panel.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+    <link rel="stylesheet" href="../../libraries/sweetalert2.min.css" />
+  </head>
+  <body>
+    <header>
+      <a class="title" href="/"><h1>Modelo</h1></a>
+      <div class="right">
+        <a href="#" id="a-logout">Sair</a>
+      </div>
+    </header>
+    <main>
+      <aside>
+        <div class="photo"></div>
+
+        <form id="profile-data">
+          <label for="company-name">Nome da empresa</label>
+          <input type="text" id="company-name" name="company-name" />
+          <label for="company-contact">Contacto</label>
+          <input type="text" id="company-contact" name="company-contact" />
+          <input type="submit" value="Actualizar" class="btn-primary" />
+        </form>
+      </aside>
+      <section>
+        <div class="card">
+          <div class="header">
+            <h2>Modelos</h2>
+            <a href="../pages/create/">
+              <button class="btn-primary">
+                <i class="la la-plus-circle"></i><span>Novo</span>
+              </button>
+            </a>
+          </div>
+          <div class="body">
+            <form action="" id="search">
+              <label for="">Pesquisar:</label>
+              <input type="search" />
+            </form>
+            <div class="modelos">
+              <table border="1">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Sexo</th>
+                    <th>Faixa etária</th>
+                    <th>Acções</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="../../libraries/sweetalert2.min.js"></script>
+    <script type="module">
+      import { api_url, ages } from "../../js/config.js";
+
+      import Util from "../../js/Util.js";
+
+      new Util().keep_api_awake(api_url);
+
+      document.getElementById("a-logout").onclick = () => {
+        localStorage.removeItem("empresa");
+        window.location.href = "/";
+      };
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+
+      async function get_models() {
+        let rows = "";
+        const res = await fetch(api_url + "/modelo/empresa/v7");
+        const json = await res.json();
+
+        const data = json.data;
+
+        if (json.data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            const { full_name, gender, age, created_at, _id } = data[i];
+
+            if (!created_at) continue;
+
+            rows += `
+              <tr>
+                <td>${_id}</td>
+                <td>${full_name}</td>
+                <td>${gender}</td>
+                <td>${ages.find(({ id }) => id === age).label}</td>
+                <td style="text-align: center">
+                  <a href="../pages/dashboard/?id=${_id}"
+                    ><button class="btn-riple btn-riple-primary"><i class="la la-edit"></i></button></a
+                  >
+                  <a href="${api_url}/modelo/delete/${_id}"><button class="btn-riple btn-riple-danger"><i class="la la-trash"></i></button></a
+                </td>
+              </tr>
+            `;
+          }
+
+          document.getElementById("table-body").innerHTML = rows;
+        }
+      }
+
+      const get_company_info = async () => {
+        const res = await fetch(api_url + "/modelo/empresa/info/3");
+        const json = await res.json();
+        document.getElementById("company-name").value = json.data.name || "";
+        document.getElementById("company-contact").value =
+          json.data.contact || "";
+      };
+
+      document
+        .getElementById("profile-data")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const form = new FormData(e.target);
+
+          const company_name = form.get("company-name");
+          const company_contact = form.get("company-contact");
+
+          const data = { name: company_name, contact: company_contact };
+
+          const res = await fetch(api_url + "/modelo/empresa/update", {
+            method: "put",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          const json = await res.json();
+
+          Toast.fire({
+            icon: "success",
+            text: "Dados actualizados com êxito",
+          });
+        });
+
+      get_models();
+      get_company_info();
+    </script>
+  </body>
+</html>

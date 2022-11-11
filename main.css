@@ -51,13 +51,14 @@ header #a-login {
   padding: 7px 5px;
   width: 200px;
   text-align: center;
-  border: 1px solid #000;
+  border: 1px solid var(--primary-color);
   margin-right: 10px;
+  color: var(--primary-color);
   transition: all .4s ease-in-out;
 }
 
 header #a-login:hover {
-  background-color: #000;
+  background-color: var(--primary-color);
   color: #fff;
 }
 
@@ -96,8 +97,18 @@ main {
 }
 
 .model .description {
-  flex: 1;
-  padding: 0 10px;
+  /* flex: 1; */
+  padding: 5px 10px;
+}
+
+.model .description a {
+  color: #2bccb1;
+}
+
+:root {
+  --primary-color: #2bccb1;
+  --danger-color: red;
+  --neutral-color: blue;
 }
 
 /* footer */
@@ -117,7 +128,7 @@ footer .top div:nth-child(1) {
 
 footer .top i {
   font-size: 32px;
-  color: #ddd;
+  color: var(--primary-color);
 }
 
 footer .top > div {

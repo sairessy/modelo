@@ -1,0 +1,80 @@
+:root {
+  --primary-color: #2bccb1;
+  --danger-color: red;
+  --neutral-color: blue;
+}
+
+body {
+  background-color: #eee;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  font-family: arial;
+}
+
+input, select {
+  border: 1px solid #888;
+  padding: 5px;
+  outline: none;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  padding: 7px;
+  /* width: 150px; */
+  border: none;
+  border-radius: 2px;
+  color: #fff;
+  box-shadow: 2px 2px 2px 2px #aaa;
+}
+
+input:focus {
+  border-color: var(--primary-color);
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+.card {
+  background-color: #fff;
+}
+
+.card .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  height: 30px;
+  border-bottom: 1px solid #ccc;
+}
+
+.card .body {
+  padding: 10px;
+  border-top: none;
+}
+
+.btn-outline {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  border-color: #2bccb1;
+}
+
+.btn-secondary {
+  border-color: orange;
+}
+
+.btn-danger {
+  border-color: red;
+}

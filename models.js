@@ -145,6 +145,33 @@ const models = [
     pic: root_path + "9.jpg",
     average_price_pic: 30,
   },
+  {
+    id: 17,
+    category: 0,
+    city: "Maputo",
+    gender: "F",
+    class_age: 1,
+    pic: root_path + "15.jpg",
+    average_price_pic: 30,
+  },
+  {
+    id: 18,
+    category: 0,
+    city: "Maputo",
+    gender: "F",
+    class_age: 1,
+    pic: root_path + "16.jpg",
+    average_price_pic: 30,
+  },
+  {
+    id: 19,
+    category: 0,
+    city: "Maputo",
+    gender: "F",
+    class_age: 1,
+    pic: root_path + "17.jpg",
+    average_price_pic: 30,
+  },
 ];
 
 export default models;

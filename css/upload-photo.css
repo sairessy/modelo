@@ -82,6 +82,12 @@ aside button {
   padding: 5px;
 }
 
+form {
+  width: 40%;
+  margin: auto;
+  flex-direction: column;
+}
+
 #create-model {
   display: flex;
   flex-wrap: wrap;

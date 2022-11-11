@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="libraries/line-awesome.min.css" />
     <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="libraries/sweetalert2.min.css" />
     <title>MODELO</title>
   </head>
   <body>
     <header>
       <a class="title" href="/"><h1>Modelo</h1></a>
       <div class="right">
-        <!-- <a href="/pages/login" id="a-login">Entrar</a> -->
+        <a href="/pages/login" id="a-login">Entrar</a>
         <nav>
           <a href="#">Adultos</a>
           <a href="#">Adolescentes</a>
@@ -34,14 +35,17 @@
     <footer>
       <div class="top">
         <div>
-          A nossa empresa lhe permite encontrar o modelo mais adequado para
-          qualquer tipo de publicidade publicidade que pretenda realizar.
+          <h3>Sobre</h3>
+          <p>
+            A nossa empresa lhe permite encontrar o modelo mais adequado para
+            qualquer tipo de publicidade publicidade que pretenda realizar.
+          </p>
         </div>
         <div>
           <h3>Contacto</h3>
-          <p>Av. Emília Dausse - Nº 1898</p>
-          <p>(+258) 823909988 / 843909988</p>
-          <p>comercial@modelos.co.mz</p>
+          <p>Av. Joaquim Chissano</p>
+          <p>(+258) 847460853 / 872081978</p>
+          <p>sairessy@gmail.com</p>
         </div>
         <div>
           <h3>Social</h3>
@@ -52,31 +56,55 @@
       </div>
       <div class="bottom">modelo.co.mz &copy; 2022</div>
     </footer>
-
+    <script src="/libraries/sweetalert2.min.js"></script>
     <script type="module">
-      import models from "./models.js";
-      let models_aux = "";
+      import { api_url } from "/js/config.js";
+      import Util from "/js/Util.js";
 
-      for (const model of models) {
-        const { city, gender, id, pic, average_price_pic } = model;
-        models_aux += `
-          <div class='model'>
-            <div class='cover' style='background: url(${pic}) no-repeat center center/cover;'></div>
-            <div class='description'>
-              <!--<div class='city-photos'>
-                <p>${city}</p>
-                <a href="/pages/profile/?id=${id}"><span>33</span><i class='la la-lg la-camera'></i></a>
-              </div>-->
-              <p style='text-align: right;'>${String(id).padStart(
-                7,
-                "0"
-              )}<strong> #</strong></p>
-            </div>
-          </div>
-        `;
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+
+      new Util().keep_api_awake(api_url);
+
+      const get_photos = async () => {
+        const res = await fetch(api_url + "/modelo/photo/all");
+        const photos = await res.json();
+        console.log(photos);
+        if (photos.length > 0) {
+          let photos_aux = "";
+          for (const photo of photos) {
+            const { _id, modelo_id, company } = photo;
+            photos_aux += `
+              <div class='model'>
+                <div class='cover' style='background: url(${photo.data}) no-repeat center center/cover;'></div>
+                <div class='description'>
+                  <div class='city-photos'>
+                    <p></p>
+                    <a><tiny style="color: #000;">(${company.name}) </tiny><span>${company.contact}</span><i class='la la-lg la-phone-alt'></i></a>
+                  </div> 
+                  <p style='text-align: right;'>${modelo_id}<strong> #</strong></p>
+                </div>
+              </div>
+            `;
+          }
+
+          document.getElementById("models").innerHTML = photos_aux;
+        }
+      };
+
+      get_photos();
+
+      const user = localStorage.getItem("empresa");
+
+      if (user) {
+        document.getElementById("a-login").href = "pages/panel/index.html";
+        document.getElementById("a-login").innerText = "Meu Dashboard";
       }
-
-      document.getElementById("models").innerHTML = models_aux;
     </script>
   </body>
 </html>

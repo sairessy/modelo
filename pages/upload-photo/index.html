@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modelo - registo</title>
+    <link rel="stylesheet" href="../../css/upload-photo.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+  </head>
+  <body>
+    <header>
+      <a class="title" href="/"><h1>Modelo</h1></a>
+      <div class="right">
+        <a href="#" id="a-logout">Sair</a>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="card">
+          <div class="header">
+            <h2>Nova foto</h2>
+          </div>
+          <div class="body">
+            <form id="create-model">
+              <img
+                src="../../img/camera-solid.svg"
+                height="400px"
+                alt=""
+                id="img"
+              />
+              <input
+                type="file"
+                accept=".png,.jpg,.jpeg,.jfif"
+                id="img-file"
+                required
+              />
+            </form>
+          </div>
+        </div>
+      </section>
+      <aside>
+        <a href="#">
+          <button
+            type="submit"
+            form="create-model"
+            class="btn-outline btn-primary"
+          >
+            Gravar
+          </button>
+        </a>
+        <!-- <button class="btn-outline btn-danger">Apagar</button> -->
+        <a href="../panel/index.html">
+          <button class="btn-outline btn-terciary">Voltar</button>
+        </a>
+      </aside>
+    </main>
+
+    <script type="module">
+      import { api_url } from "../../js/config.js";
+
+      const url = new URL(window.location.href);
+      const id = url.searchParams.get("id");
+
+      let file_to_upload = null;
+
+      document
+        .getElementById("img-file")
+        .addEventListener("change", async (e) => {
+          e.preventDefault();
+          const file = e.target.files[0];
+          const obj_url = URL.createObjectURL(file);
+          document.getElementById("img").src = obj_url;
+
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            file_to_upload = {
+              name: file.name,
+              modelo_id: id,
+              empresa: localStorage.getItem("empresa"),
+              data: reader.result,
+            };
+          };
+        });
+
+      document
+        .getElementById("create-model")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const res = await fetch(api_url + "/modelo/photo", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(file_to_upload),
+          });
+
+          const json = await res.json();
+
+          window.location.href = "../dashboard/?id=" + id;
+        });
+    </script>
+  </body>
+</html>

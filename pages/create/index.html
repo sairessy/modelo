@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modelo - Foto</title>
+    <title>Modelo - registo</title>
     <link rel="stylesheet" href="../../css/create.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+    <link rel="stylesheet" href="../../libraries/sweetalert2.min.css" />
   </head>
   <body>
     <header>
@@ -16,13 +18,101 @@
     </header>
 
     <main>
-      <div class="form-container">
-        <div class="cover"></div>
-        <form id="form-upload-photo">
-          <input type="file" accept=".png, .jpg, .jpeg, .jfif " />
-          <input type="submit" value="Upload" />
-        </form>
-      </div>
+      <section>
+        <div class="card">
+          <div class="header">
+            <h2>Novo modelo</h2>
+          </div>
+          <div class="body">
+            <form id="create-model">
+              <div class="form-group">
+                <label for="">Nome completo</label>
+                <input type="text" name="fullname" id="fullname" required />
+              </div>
+              <div class="form-group">
+                <label for="">Seleccione a faixa etária</label>
+                <select id="age" name="age">
+                  <option value="0">Bebé</option>
+                  <option value="1">Criança</option>
+                  <option value="2">Adolescente</option>
+                  <option value="3">Adulto</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="f">Feminino</label>
+                <input type="radio" name="gender" id="f" value="f" />
+                <label for="m">Masculino</label>
+                <input type="radio" name="gender" id="m" value="m" />
+              </div>
+              <div class="form-group">
+                <label for="">Morada</label>
+                <input type="text" id="address" name="address" required />
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+      <aside>
+        <a href="#">
+          <button
+            type="submit"
+            form="create-model"
+            class="btn-outline btn-primary"
+          >
+            Gravar
+          </button>
+        </a>
+        <!-- <a href="../panel/index.html">
+          <button class="btn-outline btn-secondary">Fotos</button>
+        </a> -->
+        <!-- <button class="btn-outline btn-danger">Apagar</button> -->
+        <a href="../panel/index.html">
+          <button class="btn-outline btn-terciary">Voltar</button>
+        </a>
+      </aside>
     </main>
+
+    <script src="../../libraries/sweetalert2.min.js"></script>
+    <script type="module">
+      import { api_url } from "../../js/config.js";
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+
+      document
+        .getElementById("create-model")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const form = new FormData(e.target);
+
+          const fullname = form.get("fullname");
+          const address = form.get("address");
+          const age = form.get("age");
+          const gender = form.get("gender") || "f";
+
+          const data = { fullname, address, age, gender };
+
+          const res = await fetch(api_url + "/modelo/create", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          const json = await res.json();
+
+          Toast.fire({
+            icon: "success",
+            text: "Modelo registado com sucesso!",
+          });
+        });
+    </script>
   </body>
 </html>

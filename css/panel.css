@@ -1,0 +1,162 @@
+:root {
+  --primary-color: #2bccb1;
+  --danger-color: red;
+  --neutral-color: blue;
+}
+
+/* header */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.title {
+  text-transform: uppercase;
+}
+
+header  .right {
+  display: flex;
+  align-items: center;
+}
+
+header #a-logout {
+  border-radius: 25px;
+  padding: 7px 5px;
+  width: 200px;
+  text-align: center;
+  border: 1px solid #000;
+  margin-right: 10px;
+  transition: all .4s ease-in-out;
+}
+
+header #a-logout:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/*  */
+
+main {
+  padding: 10px;
+  display: flex;
+}
+
+form#search {
+  padding: 10px 0;
+}
+
+form#search input {
+  padding: 5px;
+}
+
+form#profile-data {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+
+form#profile-data input {
+  padding: 10px;
+}
+
+form#profile-data input, label {
+  margin-bottom: 5px;
+}
+
+/* Aside */
+aside {
+  flex: 1;
+  /* background-color: #fff; */
+  margin-right: 10px;
+}
+
+aside .photo {
+  background: url(../img/user.svg);
+  background-color: #ddd;
+  width: 180px;
+  height: 180px;
+  border-radius: 100%;
+  margin: 20px auto;
+}
+
+section {
+  flex: 3;
+}
+
+.card {
+  background-color: #fff;
+}
+
+.card .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  height: 30px;
+  border-bottom: 1px solid #ccc;
+}
+
+.card .body {
+  padding: 10px;
+  border-top: none;
+}
+
+.modelos {
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-color: #ddd;
+}
+
+table td, th {
+  padding: 5px;
+}
+
+.btn-riple {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  border: none;
+  color: #fff;
+}
+
+.btn-riple:active {
+  opacity: .6;
+}
+
+.btn-riple-primary {
+  background-color: var(--primary-color);
+}
+
+.btn-riple-danger {
+  background-color: var(--danger-color);
+}
+
+.btn-riple-neutral {
+  background-color: var(--neutral-color);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  padding: 7px;
+  /* width: 150px; */
+  border: none;
+  border-radius: 2px;
+  color: #fff;
+  box-shadow: 2px 2px 2px 2px #aaa;
+}
+
+.btn-primary i {
+  margin-right: 10px;
+}
