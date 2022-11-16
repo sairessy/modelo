@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -42,7 +42,7 @@
         <div class="card">
           <div class="header">
             <h2>Modelos</h2>
-            <a href="../pages/create/">
+            <a href="../create/index.html">
               <button class="btn-primary">
                 <i class="la la-plus-circle"></i><span>Novo</span>
               </button>
@@ -85,7 +85,7 @@
 
       document.getElementById("a-logout").onclick = () => {
         localStorage.removeItem("empresa");
-        window.location.href = "/";
+        window.location.href = "/modelo";
       };
 
       const Toast = Swal.mixin({
@@ -165,7 +165,7 @@
                 <td>${gender.toUpperCase()}</td>
                 <td>${ages.find(({ id }) => id === age).label}</td>
                 <td style="text-align: center">
-                  <a href="../pages/dashboard/?id=${_id}"
+                  <a href="../dashboard/?id=${_id}"
                     ><button class="btn-riple btn-riple-primary"><i class="la la-edit"></i></button></a
                   >
                   <a href="${api_url}/modelo/delete/${_id}"><button class="btn-riple btn-riple-danger"><i class="la la-trash"></i></button></a
