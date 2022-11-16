@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modelo - registo</title>
+    <link
+      rel="shortcut icon"
+      href="../../img/magento.svg"
+      type="image/x-icon"
+    />
     <link rel="stylesheet" href="../../css/create.css" />
     <link rel="stylesheet" href="../../css/main.css" />
     <link rel="stylesheet" href="../../libraries/sweetalert2.min.css" />
@@ -13,6 +18,9 @@
     <header>
       <a class="title" href="/"><h1>Modelo</h1></a>
       <div class="right">
+        <nav>
+          <a href="../panel/index.html">Meus Modelos</a>
+        </nav>
         <a href="#" id="a-logout">Sair</a>
       </div>
     </header>
@@ -34,13 +42,13 @@
                 <select id="age" name="age">
                   <option value="0">Bebé</option>
                   <option value="1">Criança</option>
-                  <option value="2">Adolescente</option>
+                  <option value="2" selected>Adolescente</option>
                   <option value="3">Adulto</option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="f">Feminino</label>
-                <input type="radio" name="gender" id="f" value="f" />
+                <input type="radio" name="gender" id="f" value="f" checked />
                 <label for="m">Masculino</label>
                 <input type="radio" name="gender" id="m" value="m" />
               </div>
@@ -57,7 +65,7 @@
           <button
             type="submit"
             form="create-model"
-            class="btn-outline btn-primary"
+            class="btn-outline btn-outline-primary"
           >
             Gravar
           </button>
@@ -66,9 +74,9 @@
           <button class="btn-outline btn-secondary">Fotos</button>
         </a> -->
         <!-- <button class="btn-outline btn-danger">Apagar</button> -->
-        <a href="../panel/index.html">
+        <!-- <a href="../panel/index.html">
           <button class="btn-outline btn-terciary">Voltar</button>
-        </a>
+        </a> -->
       </aside>
     </main>
 
@@ -79,7 +87,7 @@
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
-        timer: 3000,
+        timer: 1000,
         timerProgressBar: true,
         showConfirmButton: false,
       });
@@ -96,7 +104,13 @@
           const age = form.get("age");
           const gender = form.get("gender") || "f";
 
-          const data = { fullname, address, age, gender };
+          const data = {
+            fullname,
+            address,
+            age,
+            gender,
+            empresa: localStorage.getItem("empresa"),
+          };
 
           const res = await fetch(api_url + "/modelo/create", {
             method: "POST",
@@ -110,7 +124,9 @@
 
           Toast.fire({
             icon: "success",
-            text: "Modelo registado com sucesso!",
+            text: "Modelo registado com êxito!",
+          }).then(() => {
+            window.location.href = "../panel/index.html";
           });
         });
     </script>

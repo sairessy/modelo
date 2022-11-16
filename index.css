@@ -4,11 +4,6 @@ body {
   background-color: #f9f9f9;
 }
 
-* {
-  font-family: Arial, Helvetica, sans-serif;
-  outline: none;
-}
-
 a {
   text-decoration: none;
   color: #000;
@@ -49,10 +44,10 @@ header nav a {
 header #a-login {
   border-radius: 25px;
   padding: 7px 5px;
-  width: 200px;
+  width: 170px;
   text-align: center;
   border: 1px solid var(--primary-color);
-  margin-right: 10px;
+  margin-left: 10px;
   color: var(--primary-color);
   transition: all .4s ease-in-out;
 }
@@ -80,6 +75,7 @@ main {
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #eee;
+  border-radius: 5px;
 }
 
 .model .city-photos {
@@ -94,21 +90,16 @@ main {
 
 .model .cover {
   flex: 3;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .model .description {
-  /* flex: 1; */
   padding: 5px 10px;
 }
 
 .model .description a {
-  color: #2bccb1;
-}
-
-:root {
-  --primary-color: #2bccb1;
-  --danger-color: red;
-  --neutral-color: blue;
+  color: var(--primary-color);
 }
 
 /* footer */
@@ -143,4 +134,16 @@ footer .bottom {
   padding: 5px;
   background-color: #000;
   color: #fff;
+}
+
+@media (max-width: 414px) {
+  footer .top {
+    height: auto;
+    padding: 10px;
+    flex-direction: column;
+  }
+
+  footer .top div:nth-child(1) {
+    padding: 10px;
+  }
 }

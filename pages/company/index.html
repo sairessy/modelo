@@ -4,16 +4,20 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="./img/magento.svg" type="image/x-icon" />
-    <link rel="stylesheet" href="./libraries/line-awesome.min.css" />
-    <link rel="stylesheet" href="./index.css" />
-    <link rel="stylesheet" href="./css/main.css" />
-    <link rel="stylesheet" href="./libraries/sweetalert2.min.css" />
+    <link
+      rel="shortcut icon"
+      href="../../img/magento.svg"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../../libraries/line-awesome.min.css" />
+    <link rel="stylesheet" href="../../css/company.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+    <link rel="stylesheet" href="../../libraries/sweetalert2.min.css" />
     <title>MODELO</title>
   </head>
   <body>
     <header>
-      <a class="title" href="./"><h1>Modelo</h1></a>
+      <a class="title" href="/"><h1>Modelo</h1></a>
       <div class="right">
         <!-- <nav>
           <a href="#">Adultos</a>
@@ -26,25 +30,13 @@
           <option value="">Masculino</option>
           <option value="">Feminino</option>
         </select> -->
-        <a href="./pages/login" id="a-login">Entrar</a>
+        <a href="../../pages/login" id="a-login">Entrar</a>
       </div>
     </header>
 
     <main>
-      <div id="models">
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-        <div class="model-template"></div>
-      </div>
+      <h2 id="agency-name"></h2>
+      <div id="models"></div>
     </main>
 
     <footer>
@@ -72,30 +64,32 @@
       <div class="bottom">modelo.co.mz &copy; 2022</div>
     </footer>
     <script type="module">
-      import { api_url } from "./js/config.js";
-      import Util from "./js/Util.js";
+      import { api_url } from "../../js/config.js";
+      import Util from "../../js/Util.js";
 
       new Util().keep_api_awake(api_url);
 
+      const url = new URL(window.location.href);
+      const id = url.searchParams.get("id");
+
       const get_photos = async () => {
-        const res = await fetch(api_url + "/modelo/photo/all");
+        const res = await fetch(api_url + "/modelo/photo/all/" + id);
         const photos = await res.json();
         if (photos.length > 0) {
           let photos_aux = "";
           for (const photo of photos) {
             const { _id, modelo_id, company } = photo;
+            document.getElementById("agency-name").innerText =
+              "<" + company.name.toUpperCase() + ">";
             photos_aux += `
               <div class='model'>
                 <div class='cover' style='background: url(${photo.data}) no-repeat center center/cover;'></div>
                 <div class='description'>
                   <div class='city-photos'>
                     <p></p>
-                    <a class="company-name" href="./pages/company/?id=${company.id}">
-                      <tiny>(${company.name}) </tiny>
-                    </a>
                     <span>${company.contact} <i class='la la-lg la-phone-square'></i></span>
                   </div> 
-                  <p style='text-align: right;'><a href="./pages/profile/?id=${modelo_id}">${modelo_id}<strong> #</strong></a></p>
+                  <p style='text-align: right;'><a href="../profile/?id=${modelo_id}">${modelo_id}<strong> #</strong></a></p>
                 </div>
               </div>
             `;
@@ -110,7 +104,7 @@
       const user = localStorage.getItem("empresa");
 
       if (user) {
-        document.getElementById("a-login").href = "./pages/panel/index.html";
+        document.getElementById("a-login").href = "../panel/index.html";
         document.getElementById("a-login").innerText = "Meus Modelos";
       }
     </script>

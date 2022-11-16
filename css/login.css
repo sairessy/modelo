@@ -44,3 +44,18 @@ input {
   padding: 15px;
   margin-bottom: 20px;
 }
+
+@media (max-width: 414px) {
+  body {
+    display: unset;
+    background-color: #fff;
+  }
+
+  form {
+    width: 90%;
+    margin: auto;
+    height: auto;
+    padding: 10px;
+    border: none;
+  }
+}

@@ -33,7 +33,7 @@ header #a-logout {
   width: 200px;
   text-align: center;
   border: 1px solid #000;
-  margin-right: 10px;
+  margin-left: 10px;
   transition: all .4s ease-in-out;
 }
 
@@ -45,7 +45,7 @@ header #a-logout:hover {
 /*  */
 
 main {
-  padding: 10px;
+  padding: 5px;
   display: flex;
 }
 
@@ -61,6 +61,8 @@ form#profile-data {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  background-color: #fff;
+  margin-top: 5px;
 }
 
 
@@ -76,7 +78,7 @@ form#profile-data input, label {
 aside {
   flex: 1;
   /* background-color: #fff; */
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 aside .photo {
@@ -86,6 +88,15 @@ aside .photo {
   height: 180px;
   border-radius: 100%;
   margin: 20px auto;
+}
+
+aside .photo-wrap {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+  /* margin: 0 10px 10px 10px; */
 }
 
 section {
@@ -159,4 +170,13 @@ table td, th {
 
 .btn-primary i {
   margin-right: 10px;
+}
+
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  background-color: #fff;
 }

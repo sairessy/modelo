@@ -5,6 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modelo - Dashboard</title>
+    <link
+      rel="shortcut icon"
+      href="../../img/magento.svg"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../../libraries/sweetalert2.min.css" />
     <link rel="stylesheet" href="../../libraries/line-awesome.min.css" />
     <link rel="stylesheet" href="../../css/dashboard.css" />
     <link rel="stylesheet" href="../../css/main.css" />
@@ -13,6 +19,9 @@
     <header>
       <a class="title" href="/"><h1>Modelo</h1></a>
       <div class="right">
+        <nav>
+          <a href="../panel/index.html">Meus Modelos</a>
+        </nav>
         <a href="#" id="a-logout">Sair</a>
       </div>
     </header>
@@ -70,6 +79,7 @@
       </section>
     </main>
 
+    <script src="../../libraries/sweetalert2.min.js"></script>
     <script type="module">
       import { api_url } from "../../js/config.js";
 
@@ -79,6 +89,14 @@
 
       const url = new URL(window.location.href);
       const id = url.searchParams.get("id");
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
 
       document
         .getElementById("form-user-info")
@@ -117,19 +135,30 @@
 
           const json = await res.json();
 
-          alert("Dados actualizados");
+          Toast.fire({
+            icon: "success",
+            text: "Dados actualizados",
+          });
         });
 
       const get_model = async () => {
         const res = await fetch(api_url + "/modelo/" + id);
         const json = await res.json();
-        const { full_name: name, email, contact, address, age } = json.data;
+        const {
+          full_name: name,
+          email,
+          contact,
+          address,
+          age,
+          gender,
+        } = json.data;
 
         document.getElementById("name").value = name || "";
         document.getElementById("email").value = email || "";
         document.getElementById("contact").value = contact || "";
         document.getElementById("address").value = address || "";
         document.getElementById("select-age-group").value = age;
+        document.getElementById(gender).checked = true;
       };
 
       const get_photos = async () => {

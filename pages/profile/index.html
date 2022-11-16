@@ -4,14 +4,25 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modelo - Perfil</title>
+    <title>Modelo - Profile</title>
+    <link
+      rel="shortcut icon"
+      href="../../img/magento.svg"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../../libraries/sweetalert2.min.css" />
+    <link rel="stylesheet" href="../../libraries/line-awesome.min.css" />
     <link rel="stylesheet" href="../../css/profile.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
   </head>
   <body>
     <header>
       <a class="title" href="/"><h1>Modelo</h1></a>
       <div class="right">
-        <a href="#" id="a-logout">Sair</a>
+        <nav>
+          <!-- <a href="../panel/index.html">Meus Modelos</a> -->
+        </nav>
+        <a href="../login/index.html" id="a-logout">Entrar</a>
       </div>
     </header>
 
@@ -23,40 +34,42 @@
           </div>
         </div>
         <form id="form-user-info">
-          <label>Email</label>
+          <!-- <label>Email</label> -->
           <input type="text" id="email" name="email" disabled />
           <label>Nome</label>
           <input type="text" id="name" name="name" disabled />
-          <label>Contacto</label>
-          <input type="text" id="contact" name="contact" disabled />
-          <select id="select-city" name="select-city" disabled>
-            <option value="">Seleccione sua província</option>
-            <option value="">Maputo</option>
-            <option value="">Sofala</option>
-            <option value="">Manica</option>
-          </select>
+          <!-- <label>Contacto</label> -->
+          <input type="text" id="contact" name="contact" />
+
+          <label for="">Faixa etária</label>
           <select id="select-age-group" name="select-age-group" disabled>
-            <option value="">Seleccione a faixa etária</option>
-            <option value="0">Adulto</option>
-            <option value="1">Adolescente</option>
-            <option value="2">Criança</option>
-            <option value="3">Bebé</option>
+            <option value="0">Bebé</option>
+            <option value="1">Criança</option>
+            <option value="2">Adolescente</option>
+            <option value="3">Adulto</option>
           </select>
-          <select id="select-city" name="select-city" disabled>
-            <option value="">Seleccione o género</option>
-            <option value="">Masculino</option>
-            <option value="">Feminino</option>
-          </select>
-          <!-- <label for="birthday">Data de nascimento</label>
-          <input type="date" id="birthday" name="birthday" /> -->
-          <!-- <input type="submit" value="Actualizar" /> -->
+          <div>
+            <label for="f">Feminino</label>
+            <input type="radio" name="gender" id="f" value="f" />
+            <label for="m">Masculino</label>
+            <input type="radio" name="gender" id="m" value="m" />
+          </div>
+          <label for="address">Morada</label>
+          <input type="text" name="address" id="address" disabled />
+          <!-- <input type="submit" value="Actualizar" class="btn-primary" /> -->
         </form>
       </aside>
       <section>
         <div class="section-container">
           <div class="card">
             <div class="card-header">
-              <p>Todas fotos deste(a) modelo</p>
+              <h2>Fotos</h2>
+              <!-- <a href="" id="a-add-photo"
+                ><button class="btn-primary">
+                  <i class="la la-plus-circle" style="margin-right: 10px"></i
+                  ><span>Nova</span>
+                </button></a
+              > -->
             </div>
             <div class="card-body">
               <div id="models"></div>
@@ -66,22 +79,74 @@
       </section>
     </main>
 
+    <script src="../../libraries/sweetalert2.min.js"></script>
     <script type="module">
-      import models from "../../models.js";
-      let models_aux = "";
+      import { api_url } from "../../js/config.js";
 
-      for (const model of models) {
-        const { city, gender, id, pic, average_price_pic } = model;
-        models_aux += `
-          <div class='model'>
-            <div class='cover' style='background: url(${pic}) no-repeat center center/cover;'></div>
-            <div class='description'>
-            </div>
-          </div>
-        `;
+      import Util from "../../js/Util.js";
+
+      new Util().keep_api_awake(api_url);
+
+      const url = new URL(window.location.href);
+      const id = url.searchParams.get("id");
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+
+      const get_model = async () => {
+        const res = await fetch(api_url + "/modelo/" + id);
+        const json = await res.json();
+        const {
+          full_name: name,
+          email,
+          contact,
+          address,
+          age,
+          gender,
+        } = json.data;
+
+        document.getElementById("name").value = name || "";
+        document.getElementById("email").value = email || "";
+        document.getElementById("contact").value = contact || "";
+        document.getElementById("address").value = address || "";
+        document.getElementById("select-age-group").value = age;
+        document.getElementById(gender).checked = true;
+      };
+
+      const get_photos = async () => {
+        const res = await fetch(api_url + "/modelo/photos/" + id);
+        const json = await res.json();
+
+        if (json.length > 0) {
+          let photos = "";
+          for (const p of json) {
+            photos += `
+              <div class='model'>
+                <div class='cover' style='background: url(${p.data}) no-repeat center center/cover;'></div>
+                <div class='description'>
+                  <button id='btn-profile-pic'>Foto de perfil</button><button id='btn-delete'>Apagar</button>
+                </div>
+              </div>
+            `;
+          }
+          document.getElementById("models").innerHTML = photos;
+        }
+      };
+
+      get_model();
+      get_photos();
+
+      const user = localStorage.getItem("empresa");
+
+      if (user) {
+        document.getElementById("a-logout").href = "../panel/index.html";
+        document.getElementById("a-logout").innerText = "Meus Modelos";
       }
-
-      document.getElementById("models").innerHTML = models_aux;
     </script>
   </body>
 </html>

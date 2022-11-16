@@ -4,14 +4,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="../../img/magento.svg"
+      type="image/x-icon"
+    />
     <title>Modelo - registo</title>
     <link rel="stylesheet" href="../../css/upload-photo.css" />
     <link rel="stylesheet" href="../../css/main.css" />
+    <link rel="stylesheet" href="../../libraries/sweetalert2.min.css" />
   </head>
   <body>
     <header>
       <a class="title" href="/"><h1>Modelo</h1></a>
       <div class="right">
+        <nav>
+          <a href="../panel/index.html">Meus Modelos</a>
+        </nav>
         <a href="#" id="a-logout">Sair</a>
       </div>
     </header>
@@ -45,18 +54,19 @@
           <button
             type="submit"
             form="create-model"
-            class="btn-outline btn-primary"
+            class="btn-outline btn-outline-primary"
           >
             Gravar
           </button>
         </a>
         <!-- <button class="btn-outline btn-danger">Apagar</button> -->
-        <a href="../panel/index.html">
+        <!-- <a href="../panel/index.html">
           <button class="btn-outline btn-terciary">Voltar</button>
-        </a>
+        </a> -->
       </aside>
     </main>
 
+    <script src="../../libraries/sweetalert2.min.js"></script>
     <script type="module">
       import { api_url } from "../../js/config.js";
 
@@ -64,6 +74,14 @@
       const id = url.searchParams.get("id");
 
       let file_to_upload = null;
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        timer: 1000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
 
       document
         .getElementById("img-file")
@@ -99,7 +117,12 @@
 
           const json = await res.json();
 
-          window.location.href = "../dashboard/?id=" + id;
+          Toast.fire({
+            icon: "success",
+            text: "Foto carregada com êxito!",
+          }).then(() => {
+            window.location.href = "../dashboard/?id=" + id;
+          });
         });
     </script>
   </body>

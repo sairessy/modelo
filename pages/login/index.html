@@ -5,21 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modelo - Login</title>
+    <link
+      rel="shortcut icon"
+      href="../../img/magento.svg"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../../libraries/sweetalert2.min.css" />
     <link rel="stylesheet" href="../../css/main.css" />
     <link rel="stylesheet" href="../../css/login.css" />
-    <link rel="stylesheet" href="../../libraries/sweetalert2.min.css" />
   </head>
   <body>
     <div class="wrap-form">
-      <h1 class="title"><a href="/">MODELO</a></h1>
+      <a href="/">
+        <h1 class="title">MODELO</h1>
+      </a>
       <form id="form-login">
         <label for="email">Email</label>
         <input type="email" id="email" autofocus />
         <label for="pass">Senha</label>
         <input type="password" id="pass" />
-        <input type="submit" value="Entrar" />
-        <p><a href="#/pages/sign_up/">Ainda não tenho uma conta!</a></p>
-        <p><a href="#/pages/pass_recovery/">Recuperar senha</a></p>
+        <input type="submit" value="Entrar" class="btn-primary" />
+        <p>
+          <a href="../pages/sign_up/index.html">Ainda não tenho uma conta!</a>
+        </p>
+        <p><a href="#">Recuperar senha</a></p>
       </form>
     </div>
 
@@ -35,7 +44,7 @@
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
-        timer: 3000,
+        timer: 1500,
         timerProgressBar: true,
         showConfirmButton: false,
       });
@@ -67,7 +76,12 @@
             return;
           } else {
             localStorage.setItem("empresa", json.data._id);
-            window.location.href = "../pages/panel/index.html";
+            Toast.fire({
+              icon: "success",
+              text: "Login efectuado com êxito!",
+            }).then(() => {
+              window.location.href = "./panel/index.html";
+            });
           }
         });
     </script>

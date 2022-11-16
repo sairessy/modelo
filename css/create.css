@@ -43,7 +43,7 @@ header #a-logout {
   width: 200px;
   text-align: center;
   border: 1px solid #000;
-  margin-right: 10px;
+  margin-left: 10px;
   transition: all .4s ease-in-out;
 }
 
